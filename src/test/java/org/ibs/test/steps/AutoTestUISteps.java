@@ -20,10 +20,10 @@ public class AutoTestUISteps extends RemoteDriver {
         super.link();
     }
 
-//    @After
-//    public void close() {
-//        super.close();
-//    }
+    @After
+    public void close() {
+        super.close();
+    }
 
     @И("открыт сайт")
     public void открыть_сайт() {
