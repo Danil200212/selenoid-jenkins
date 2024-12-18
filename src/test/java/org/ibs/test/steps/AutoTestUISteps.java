@@ -1,47 +1,32 @@
-package steps;
+package org.ibs.test.steps;
 
 import driver.RemoteDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.BeforeAll;
 import io.cucumber.java.ru.И;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.Browser;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 public class AutoTestUISteps extends RemoteDriver {
-    private RemoteWebDriver driver;
     private Properties props;
 
+
     @Before
-    public void setUp() throws MalformedURLException {
-        super.setUp();
+    public void link() throws MalformedURLException {
+        super.link();
     }
 
     @After
-    public void tearDown() {
-        super.tearDown();
+    public void close() {
+        super.close();
     }
 
-    @И("открыт сайт {string}")
-    public void открыть_сайт(String string) {
-
+    @И("открыт сайт")
+    public void открыть_сайт() {
         driver.get("https://qualit.applineselenoid.fvds.ru/");
     }
 

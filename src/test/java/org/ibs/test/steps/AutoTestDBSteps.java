@@ -1,37 +1,35 @@
-package steps;
+package org.ibs.test.steps;
 
 import driver.RemoteDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.ru.И;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 
 import static java.sql.DriverManager.getConnection;
 
 public class AutoTestDBSteps extends RemoteDriver {
-    private RemoteWebDriver driver;
-    private Properties props;
+
     private Statement statement;
-    private Connection connection;
+
+
     @Before
-    public void setUp() throws MalformedURLException {
-        super.setUp();
+    public void link() throws MalformedURLException {
+        super.link();
     }
 
     @After
-    public void tearDown() {
-        super.tearDown();
+    public void close() {
+        super.close();
     }
 
 
-    @И("подключение к БД")
+   @И("подключение к БД")
     public void test() throws SQLException {
         Connection connection = getConnection(
                 "jdbc:h2:tcp://qualit.applineselenoid.fvds.ru/mem:testdb",
@@ -50,7 +48,7 @@ public class AutoTestDBSteps extends RemoteDriver {
             "pass");
     Statement statement = connection.createStatement();
 
-    System.out.println("Исходная БД:");
+
     String all = "Select * FROM FOOD";
     ResultSet rs = statement.executeQuery(all);
     while (rs.next()) {
@@ -61,34 +59,8 @@ public class AutoTestDBSteps extends RemoteDriver {
         System.out.printf("%d, %s, %s, %d%n", FOOD_ID, FOOD_NAME, FOOD_TYPE, FOOD_EXOTIC);
 
     }
-    System.out.println("============================");
 }
 
-@И("добавление товара в список БД")
-        public void добавить_товар () throws SQLException {
-
-    Connection connection = getConnection(
-            "jdbc:h2:tcp://qualit.applineselenoid.fvds.ru/mem:testdb",
-            "user",
-            "pass");
-    Statement statement = connection.createStatement();
-
-        System.out.println("БД после добавления товара:");
-
-        statement.executeUpdate("INSERT INTO FOOD " +
-                "VALUES ('5', 'Картофель', 'VEGETABLE', '0')");
-
-        String all1 = "Select * FROM FOOD";
-        ResultSet rs1 = statement.executeQuery(all1);
-        while (rs1.next()) {
-            int FOOD_ID1 = rs1.getInt("FOOD_ID");
-            String FOOD_NAME1 = rs1.getString("FOOD_NAME");
-            String FOOD_TYPE1 = rs1.getString("FOOD_TYPE");
-            int FOOD_EXOTIC1 = rs1.getInt("FOOD_EXOTIC");
-            System.out.printf("%d, %s, %s, %d%n", FOOD_ID1, FOOD_NAME1, FOOD_TYPE1, FOOD_EXOTIC1);
-        }
-        System.out.println("============================");
-}
 
     @И("добавление уже существующего товара в список БД")
     public void добавить_товар1 () throws SQLException {
@@ -99,10 +71,9 @@ public class AutoTestDBSteps extends RemoteDriver {
                 "pass");
         Statement statement = connection.createStatement();
 
-        System.out.println("БД после добавления товара:");
 
         statement.executeUpdate("INSERT INTO FOOD " +
-                "VALUES ('5', 'Картофель', 'VEGETABLE', '0')");
+                "VALUES ('5', 'Апельсин', 'FRUIT', '1')");
 
         String all1 = "Select * FROM FOOD";
         ResultSet rs1 = statement.executeQuery(all1);
@@ -113,7 +84,6 @@ public class AutoTestDBSteps extends RemoteDriver {
             int FOOD_EXOTIC1 = rs1.getInt("FOOD_EXOTIC");
             System.out.printf("%d, %s, %s, %d%n", FOOD_ID1, FOOD_NAME1, FOOD_TYPE1, FOOD_EXOTIC1);
         }
-        System.out.println("============================");
     }
 
 
@@ -127,7 +97,7 @@ public void удалить_товар () throws SQLException {
     Statement statement = connection.createStatement();
 
         System.out.println("БД после удаления товара:");
-        statement.executeUpdate("DELETE FROM FOOD WHERE FOOD_NAME = 'Картофель'");
+        statement.executeUpdate("DELETE FROM FOOD WHERE FOOD_ID = '5'");
 
         String all2 = "Select * FROM FOOD";
         ResultSet rs2 = statement.executeQuery(all2);

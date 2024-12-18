@@ -21,7 +21,7 @@ public class RemoteDriver {
     protected Properties props;
     protected Connection connection;
 
-    public void setUp() throws MalformedURLException {
+    public void link() throws MalformedURLException {
         // Загрузка настроек из файла свойств
         props = new Properties();
 
@@ -40,7 +40,7 @@ public class RemoteDriver {
 
             // Подключение к Selenoid
             driver = new RemoteWebDriver(
-                    URI.create(props.getProperty("SELENOID_URL", "http://jenkins.applineselenoid.fvds.ru:4444/wd/hub")).toURL(),
+                    URI.create(props.getProperty("selenoid", "http://jenkins.applineselenoid.fvds.ru:4444/wd/hub")).toURL(),
                     capabilities
             );
         } else {
@@ -54,7 +54,7 @@ public class RemoteDriver {
         driver.manage().window().maximize();
     }
 
-    public void tearDown() {
+    public void close() {
         if (driver != null) {
             driver.quit();
         }
@@ -67,12 +67,4 @@ public class RemoteDriver {
         }
     }
 
-    public void connectToDatabase() throws SQLException {
-        // Устанавливаем соединение с БД
-        connection = DriverManager.getConnection(
-                "jdbc:h2:tcp://localhost:9092/mem:testdb",
-                "user",
-                "pass"
-        );
-    }
 }
